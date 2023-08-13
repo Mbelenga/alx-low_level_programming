@@ -1,11 +1,11 @@
-#include <stdio.h>
+#include<stdio.h>
 /**
-* main;thisisthemainfunction
-* Return;always 0
-*/
+ * main - Entry point
+ *
+ * Return: Always 0 (Success)
+ */
 int main(void)
 {
-Puts("\"Programming is like building a multilingual puzzle);
-return(0);
-betty4-puts.c
+        puts("\"Programming is like building a multilingual puzzle");
+        return (0);
 }	 	
