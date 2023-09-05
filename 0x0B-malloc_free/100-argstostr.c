@@ -3,36 +3,42 @@
 #include <stdlib.h>
 
 /**
- * print_tab - Prints an array of string
- * @tab: The array to print
- *
- * Return: nothing
+ * argstostr -  Entry point
+ *@ac: int
+ *@av: double pointer
+ * Return: Always 0.
  */
-void print_tab(char **tab)
+char *argstostr(int ac, char **av)
 {
-    int i;
+	int i, j, k, l = 0;
+	char *s;
 
-    for (i = 0; tab[i] != NULL; ++i)
-    {
-        printf("%s\n", tab[i]);
-    }
-}
+	if (ac == 0 || av == NULL)
+		return (NULL);
 
-/**
- * main - check the code for ALX School students.
- *
- * Return: 1 if an error occurred, 0 otherwise
- */
-int main(void)
-{
-    char **tab;
+	for (i = 0; i < ac; i++)
+	{
+		for (j = 0; av[i][j]; j++)
+			l++;
+	}
+	l += ac;
 
-    tab = strtow("      ALX School         #cisfun      ");
-    if (tab == NULL)
-    {
-        printf("Failed\n");
-        return (1);
-    }
-    print_tab(tab);
-    return (0);
+	s = malloc(sizeof(char) * l + 1);
+	k = 0;
+	if (s == NULL)
+		return (NULL);
+
+	for (i = 0; i < ac; i++)
+	{
+		for (j = 0; av[i][j]; j++)
+		{
+			s[k] = av[i][j];
+			k++;
+		}
+		if (s[k] == '\0')
+		{
+			s[k++] = '\n';
+		}
+	}
+	return (s);
 }
