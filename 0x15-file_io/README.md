@@ -1,3 +1,0 @@
-0x15. C - File I/O
-Completed on 2 october 2023
-UPDATED BY TERRENCE MBELENGA OWITI
