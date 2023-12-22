@@ -2,11 +2,12 @@
 
 /**
  * hash_table_create - This function creates a hash table
- * @size: Size of the array
+ * @size: This is the size of the array
  *
- * Return: returns a pointer to the hash table
+ * Return: pointer to the newly created hash table otherwise NULL
  */
-hash_table_t *hash_table_create(unsigned long int size);
+
+hash_table_t *hash_table_create(unsigned long int size)
 {
 	unsigned int count = 0;
 	hash_table_t *hash_table = malloc(sizeof(hash_table_t));
