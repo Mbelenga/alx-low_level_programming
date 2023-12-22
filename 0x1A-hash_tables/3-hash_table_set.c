@@ -1,51 +1,55 @@
 #include "hash_tables.h"
+#include <string.h>
 
 /**
- * hash_table_set - This function adds elements to the hash table
- * @ht: The hash table
- * @key: The key which is not an empty string
- * @value: The value associated with the key
+ * hash_table_set - adds an element to the hash table
+ * @ht: hash table you want to add or update the key/value to
+ * @key: the key (can not be an empty string)
+ * @value: value associated with the key
+ * value must be duplicated. value can be an empty string
  *
- * Return: 1 if successfull otherwise 0
+ * Return: 1 if it succeeded || 0 otherwise
+ * In case of collision, add the new node at the beginning of the list
  */
-
 
 int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 {
-	unsigned long int index, len;
-	hash_node_t *hash_node, *temp;
+	hash_node_t *new;
+	unsigned long int i, index;
+	char *new_value;
 
-	if (ht == NULL || value == NULL || key == NULL)
+	if (ht == NULL || key == NULL || *key == '\0' || value == NULL)
 		return (0);
-	len = ht->size;
-	index = key_index((const unsigned char *)key, len);
 
-	temp = ht->array[index];
-	while (temp)
+	new_value = strdup(value);
+	if (new_value == NULL)
+		return (0);
+
+	index = key_index((const unsigned char *)key, ht->size);
+
+	for (i = index; ht->array[i]; i++)
 	{
-		if (strcmp(key, temp->key) == 0)
+		if (strcmp(ht->array[i]->key, key) == 0)
 		{
-			free(temp->value);
-			temp->value = strdup(value);
-			if (temp->value == NULL)
-				return (0);
+			free(ht->array[i]->value);
+			ht->array[i]->value = new_value;
 			return (1);
 		}
-		temp = temp->next;
 	}
-	hash_node = malloc(sizeof(hash_node_t));
-	if (hash_node == NULL)
+	new = malloc(sizeof(hash_node_t));
+	if (new == NULL)
+	{
+		free(new_value);
 		return (0);
-
-	hash_node->key = strdup(key);
-	if (hash_node->key == NULL)
+	}
+	new->key = strdup(key);
+	if (new->key == NULL)
+	{
+		free(new);
 		return (0);
-
-	hash_node->value = strdup(value);
-	if (hash_node->value == NULL)
-		return (0);
-
-	hash_node->next = ht->array[index];
-	ht->array[index] = hash_node;
+	}
+	new->value = new_value;
+	new->next = ht->array[index];
+	ht->array[index] = new;
 	return (1);
 }
